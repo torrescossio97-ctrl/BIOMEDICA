@@ -1,0 +1,36 @@
+
+TEXT TO lcstr2 TEXTMERGE NOSHOW PRETEXT 7
+			
+	SELECT *  FROM ENCABEZADO inner join DATOS_TEC
+	where datos_tec.descarte = '1' 
+	and encabezado.año = datos_tec.año
+	and encabezado.no_semana = datos_tec.no_semana
+	and encabezado.no_orden = datos_tec.no_orden
+	
+ENDTEXT
+
+lnprepare = SQLPREPARE(lnhandle, lcstr2, 'c_encabezado')
+lnexec = SQLEXEC(lnhandle)
+
+SELECT * FROM c_encabezado INTO CURSOR c_encabezado READWRITE 
+
+SELECT c_encabezado
+GO top
+DO WHILE NOT EOF()
+
+	TEXT TO lcstr2 TEXTMERGE NOSHOW PRETEXT 7
+				
+	UPDATE equipos inner join c_encabezado  SET equipos.status = 'DESCARTE'
+	WHERE equipos.activo = c_encabezado.activo
+		
+	ENDTEXT
+
+	lnprepare = SQLPREPARE(lnhandle, lcstr2)
+	lnexec = SQLEXEC(lnhandle)
+
+SELECT c_encabezado
+SKIP
+LOOP 
+
+ENDDO
+

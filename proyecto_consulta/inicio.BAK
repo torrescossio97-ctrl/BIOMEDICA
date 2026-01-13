@@ -1,0 +1,28 @@
+
+ PUBLIC equipow, equipo2w, usuariow, idenw, a1, fechaw, idw, seccionw, fechaew, fechasw
+ SET EXCLUSIVE ON
+ SET DELETED ON
+ SET SAFETY OFF
+ SET CENTURY ON
+ SET DATE DMY
+ idenw = SYS(0)
+ equipow = SUBSTR(idenw, 1, 6)
+ equipo2w = SUBSTR(idenw, 1, 8)
+ usuariow = SUBSTR(idenw, 12, 30)
+ LOCAL lcsrcpath
+ lcsrcpath = ADDBS(JUSTPATH(SYS(16)))+"FoxyPreviewer\Source\"
+ SET PATH TO (lcsrcpath) ADDITIVE
+ SET PATH TO (ADDBS(JUSTPATH(SYS(16)))) ADDITIVE
+ SET PROCEDURE TO (lcsrcpath+"FoxyPreviewer.prg") ADDITIVE
+ PUBLIC lcstr, lcstr2, lnhandle, lnprepare, lnexec, lcfecha1, lcfecha2, seccw, provw, deptow, turnow, adm2w, fecha5w, dia5w
+ LOCAL lcstr, lcstr2, lnprepare, lnexec, lcfecha1, lcfecha2
+ lcstr = "Driver={MySQL ODBC 3.51 Driver};Server=HSTRHSERV02;Database=biomedica;User=planilla;Password=bioconeccion;Option=25"
+ lnhandle = SQLSTRINGCONNECT(lcstr)
+ *SET PROCEDURE TO Funciones.prg ADDITIVE
+ _SCREEN.visible = .F.
+ *DO FORM consulta_ordenes_diarias
+ READ EVENTS
+ CLOSE ALL
+ = SQLDISCONNECT(lnhandle)
+ QUIT
+ENDPROC

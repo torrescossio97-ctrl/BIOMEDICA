@@ -1,0 +1,37 @@
+
+
+DO DiferenciaFechas WITH DATE(2022,01,01),DATE(2024,01,01)
+
+
+* Función para calcular la diferencia entre dos fechas
+FUNCTION DiferenciaFechas(fechaInicio, fechaFin)
+    LOCAL años, meses, días
+    LOCAL fechaTemp, diasTotales, fechaAux
+
+    * Asegúrate de que las fechas estén en el formato correcto
+    fechaInicio = CTOD(fechaInicio)
+    fechaFin = CTOD(fechaFin)
+
+    * Intercambiar si la fecha de inicio es posterior a la fecha final
+    IF fechaInicio > fechaFin
+        fechaTemp = fechaInicio
+        fechaInicio = fechaFin
+        fechaFin = fechaTemp
+    ENDIF
+
+    * Calculamos la diferencia total en días
+    diasTotales = fechaFin - fechaInicio
+
+    * Inicializamos los valores de años, meses y días
+    años = INT(diasTotales / 365)
+    fechaAux = fechaInicio + (años * 365)
+    
+    meses = INT((fechaFin - fechaAux) / 30)
+    fechaAux = fechaAux + (meses * 30)
+    
+    días = fechaFin - fechaAux
+
+    * Devolver el resultado en formato "X años Y meses Z días"
+    RETURN STR(años) + " años " + STR(meses) + " meses y " + STR(días) + " días"
+
+ENDFUNC
